@@ -2,104 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Logistics Data Terminal — dark, technical, sleek */
+    --background: 0 0% 1.2%;
+    --foreground: 240 5% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --surface: 0 0% 3.9%;
+    --surface-raised: 0 0% 7.8%;
+    --edge: 0 0% 14.1%;
+    --edge-lit: 0 0% 22.7%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 240 5% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 240 5% 96%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: 199 89% 60%;
+    --primary-foreground: 0 0% 1.2%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 0 0% 7.8%;
+    --secondary-foreground: 240 5% 96%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 0 0% 7.8%;
+    --muted-foreground: 240 5% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 0 0% 14.1%;
+    --accent-foreground: 240 5% 96%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 240 5% 96%;
 
-    --radius: 0.5rem;
+    --warning: 25 95% 53%;
+    --success: 160 84% 39%;
+    --info: 199 89% 60%;
 
-    --sidebar-background: 0 0% 98%;
+    --border: 0 0% 14.1%;
+    --input: 0 0% 14.1%;
+    --ring: 199 89% 60%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.125rem;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 3.9%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 199 89% 60%;
+    --sidebar-primary-foreground: 0 0% 1.2%;
+    --sidebar-accent: 0 0% 7.8%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 0 0% 14.1%;
+    --sidebar-ring: 199 89% 60%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* same — app is dark only */
+    --background: 0 0% 1.2%;
+    --foreground: 240 5% 96%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
+  * { @apply border-border; }
+  html { color-scheme: dark; }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
   }
+  .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+}
+
+@layer utilities {
+  .bg-surface { background-color: hsl(var(--surface)); }
+  .bg-surface-raised { background-color: hsl(var(--surface-raised)); }
+  .border-edge { border-color: hsl(var(--edge)); }
+  .border-edge-lit { border-color: hsl(var(--edge-lit)); }
+  .text-warning { color: hsl(var(--warning)); }
+  .text-success { color: hsl(var(--success)); }
+  .text-info { color: hsl(var(--info)); }
+  .bg-warning\/10 { background-color: hsl(var(--warning) / 0.1); }
+  .bg-success\/10 { background-color: hsl(var(--success) / 0.1); }
+  .bg-destructive\/10 { background-color: hsl(var(--destructive) / 0.1); }
+  .bg-info\/10 { background-color: hsl(var(--info) / 0.1); }
+  .border-warning\/30 { border-color: hsl(var(--warning) / 0.3); }
+  .border-success\/30 { border-color: hsl(var(--success) / 0.3); }
+  .border-destructive\/30 { border-color: hsl(var(--destructive) / 0.3); }
+  .border-info\/30 { border-color: hsl(var(--info) / 0.3); }
 }

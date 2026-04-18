@@ -14,16 +14,208 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      books: {
+        Row: {
+          author: string
+          available_copies: number
+          category: string | null
+          created_at: string
+          id: string
+          isbn: string | null
+          shelf_location: string | null
+          title: string
+          total_copies: number
+        }
+        Insert: {
+          author: string
+          available_copies?: number
+          category?: string | null
+          created_at?: string
+          id?: string
+          isbn?: string | null
+          shelf_location?: string | null
+          title: string
+          total_copies?: number
+        }
+        Update: {
+          author?: string
+          available_copies?: number
+          category?: string | null
+          created_at?: string
+          id?: string
+          isbn?: string | null
+          shelf_location?: string | null
+          title?: string
+          total_copies?: number
+        }
+        Relationships: []
+      }
+      members: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          member_code: string | null
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          member_code?: string | null
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          member_code?: string | null
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          daily_fine_rate: number
+          grace_period_days: number
+          id: string
+          loan_period_days: number
+          max_fine: number
+          updated_at: string
+        }
+        Insert: {
+          daily_fine_rate?: number
+          grace_period_days?: number
+          id?: string
+          loan_period_days?: number
+          max_fine?: number
+          updated_at?: string
+        }
+        Update: {
+          daily_fine_rate?: number
+          grace_period_days?: number
+          id?: string
+          loan_period_days?: number
+          max_fine?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          book_id: string
+          borrow_date: string
+          created_at: string
+          due_date: string
+          fine_amount: number
+          id: string
+          member_id: string
+          return_date: string | null
+          status: Database["public"]["Enums"]["txn_status"]
+        }
+        Insert: {
+          book_id: string
+          borrow_date?: string
+          created_at?: string
+          due_date: string
+          fine_amount?: number
+          id?: string
+          member_id: string
+          return_date?: string | null
+          status?: Database["public"]["Enums"]["txn_status"]
+        }
+        Update: {
+          book_id?: string
+          borrow_date?: string
+          created_at?: string
+          due_date?: string
+          fine_amount?: number
+          id?: string
+          member_id?: string
+          return_date?: string | null
+          status?: Database["public"]["Enums"]["txn_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "librarian" | "member"
+      txn_status: "borrowed" | "returned" | "overdue"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +342,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["librarian", "member"],
+      txn_status: ["borrowed", "returned", "overdue"],
+    },
   },
 } as const
