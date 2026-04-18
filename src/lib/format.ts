@@ -1,7 +1,7 @@
 export const fmtMoney = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n || 0);
+  new Intl.NumberFormat("en-ZA", { style: "currency", currency: "ZAR" }).format(n || 0);
 
-export const fmtNum = (n: number) => new Intl.NumberFormat("en-US").format(n || 0);
+export const fmtNum = (n: number) => new Intl.NumberFormat("en-ZA").format(n || 0);
 
 export const calcFine = (
   dueDate: string,
