@@ -3,11 +3,11 @@ import { LayoutDashboard, BookOpen, ArrowLeftRight, Users, Settings, LogOut } fr
 import { useAuth } from "@/hooks/useAuth";
 
 const items = [
-  { to: "/", label: "Matrix Overview", icon: LayoutDashboard, code: "01" },
-  { to: "/books", label: "Asset Registry", icon: BookOpen, code: "02" },
-  { to: "/transactions", label: "Transit Logs", icon: ArrowLeftRight, code: "03" },
-  { to: "/members", label: "Node Patrons", icon: Users, code: "04" },
-  { to: "/settings", label: "System Config", icon: Settings, code: "05" },
+  { to: "/", label: "Dashboard", icon: LayoutDashboard, code: "01" },
+  { to: "/books", label: "Books", icon: BookOpen, code: "02" },
+  { to: "/transactions", label: "Loans", icon: ArrowLeftRight, code: "03" },
+  { to: "/members", label: "Members", icon: Users, code: "04" },
+  { to: "/settings", label: "Settings", icon: Settings, code: "05" },
 ];
 
 export const AppLayout = () => {

@@ -30,15 +30,15 @@ const Settings = () => {
 
   return (
     <>
-      <PageHeader crumb="Terminal" title="System Config" />
+      <PageHeader crumb="Settings" title="Settings" />
       <div className="flex-1 overflow-y-auto p-8">
         <form onSubmit={save} className="max-w-xl bg-surface border border-edge p-6 flex flex-col gap-4">
           <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Fine & Loan Parameters</div>
           {([
             ["loan_period_days", "Loan Period (days)"],
             ["grace_period_days", "Grace Period (days)"],
-            ["daily_fine_rate", "Daily Fine Rate ($)"],
-            ["max_fine", "Maximum Fine ($)"],
+            ["daily_fine_rate", "Daily Fine Rate (R)"],
+            ["max_fine", "Maximum Fine (R)"],
           ] as const).map(([k, l]) => (
             <label key={k} className="flex flex-col gap-1">
               <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">{l}</span>
