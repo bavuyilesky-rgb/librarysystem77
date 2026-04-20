@@ -19,6 +19,7 @@ const Settings = () => {
       grace_period_days: Number(s.grace_period_days),
       max_fine: Number(s.max_fine),
       loan_period_days: Number(s.loan_period_days),
+      max_books_per_student: Number(s.max_books_per_student),
       updated_at: new Date().toISOString(),
     }).eq("id", s.id);
     setBusy(false);
@@ -39,6 +40,7 @@ const Settings = () => {
             ["grace_period_days", "Grace Period (days)"],
             ["daily_fine_rate", "Daily Fine Rate (R)"],
             ["max_fine", "Maximum Fine (R)"],
+            ["max_books_per_student", "Max Books per Student"],
           ] as const).map(([k, l]) => (
             <label key={k} className="flex flex-col gap-1">
               <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">{l}</span>
