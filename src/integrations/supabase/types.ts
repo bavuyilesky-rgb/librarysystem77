@@ -58,6 +58,7 @@ export type Database = {
           member_code: string | null
           name: string
           phone: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -66,6 +67,7 @@ export type Database = {
           member_code?: string | null
           name: string
           phone?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -74,6 +76,7 @@ export type Database = {
           member_code?: string | null
           name?: string
           phone?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -107,6 +110,7 @@ export type Database = {
           grace_period_days: number
           id: string
           loan_period_days: number
+          max_books_per_student: number
           max_fine: number
           updated_at: string
         }
@@ -115,6 +119,7 @@ export type Database = {
           grace_period_days?: number
           id?: string
           loan_period_days?: number
+          max_books_per_student?: number
           max_fine?: number
           updated_at?: string
         }
@@ -123,6 +128,7 @@ export type Database = {
           grace_period_days?: number
           id?: string
           loan_period_days?: number
+          max_books_per_student?: number
           max_fine?: number
           updated_at?: string
         }
@@ -214,8 +220,8 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "librarian" | "member"
-      txn_status: "borrowed" | "returned" | "overdue"
+      app_role: "librarian" | "member" | "student"
+      txn_status: "borrowed" | "returned" | "overdue" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -343,8 +349,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["librarian", "member"],
-      txn_status: ["borrowed", "returned", "overdue"],
+      app_role: ["librarian", "member", "student"],
+      txn_status: ["borrowed", "returned", "overdue", "pending"],
     },
   },
 } as const

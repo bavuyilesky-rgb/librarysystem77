@@ -3,7 +3,7 @@ import { LayoutDashboard, BookOpen, ArrowLeftRight, Users, Settings, LogOut } fr
 import { useAuth } from "@/hooks/useAuth";
 
 const items = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard, code: "01" },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, code: "01" },
   { to: "/books", label: "Books", icon: BookOpen, code: "02" },
   { to: "/transactions", label: "Loans", icon: ArrowLeftRight, code: "03" },
   { to: "/members", label: "Members", icon: Users, code: "04" },
@@ -27,7 +27,7 @@ export const AppLayout = () => {
               <NavLink
                 key={it.to}
                 to={it.to}
-                end={it.to === "/"}
+                end={it.to === "/admin"}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2 border transition-colors ${
                     isActive
