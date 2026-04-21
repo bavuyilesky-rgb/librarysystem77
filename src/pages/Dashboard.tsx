@@ -80,7 +80,8 @@ const Dashboard = () => {
         )}
 
         {(show("recent") || show("overdue")) && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className={`grid grid-cols-1 gap-8 ${show("recent") && show("overdue") ? "lg:grid-cols-3" : ""}`}>
+          {show("recent") && (
           <div className="lg:col-span-2 flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h2 className="font-mono text-xs text-muted-foreground uppercase tracking-widest">Live Transit Stream</h2>
@@ -110,10 +111,12 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+          )}
 
+          {show("overdue") && (
           <div className="flex flex-col gap-4">
             <h2 className="font-mono text-xs text-warning uppercase tracking-widest flex items-center gap-2">
-              <span className="size-1.5 bg-warning rounded-none" />
+              <span className="size-1.5 bg-warning rounded-full" />
               Depletion Warning
             </h2>
             <div className="border border-warning/30 bg-warning/10 p-4 flex flex-col gap-3">
@@ -136,7 +139,9 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+          )}
         </div>
+        )}
       </div>
     </>
   );
