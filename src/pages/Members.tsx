@@ -125,6 +125,42 @@ const Members = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={libOpen} onOpenChange={setLibOpen}>
+        <DialogContent className="bg-surface border-edge">
+          <DialogHeader>
+            <DialogTitle className="font-mono text-xs uppercase tracking-widest">Add Librarian</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={createLibrarian} className="flex flex-col gap-3">
+            <p className="text-xs text-muted-foreground">
+              Creates a new librarian account. Share the email and password with the new librarian securely — they can change their password after signing in.
+            </p>
+            {(["name", "email", "phone", "password"] as const).map((k) => (
+              <label key={k} className="flex flex-col gap-1">
+                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+                  {k}{k === "phone" ? " (optional)" : ""}
+                </span>
+                <input
+                  type={k === "password" ? "password" : k === "email" ? "email" : "text"}
+                  required={k !== "phone"}
+                  minLength={k === "password" ? 8 : undefined}
+                  maxLength={k === "name" || k === "email" ? 255 : k === "phone" ? 32 : undefined}
+                  value={(libForm as any)[k]}
+                  onChange={(e) => setLibForm({ ...libForm, [k]: e.target.value })}
+                  className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-primary transition-colors"
+                />
+              </label>
+            ))}
+            <button
+              type="submit"
+              disabled={libBusy}
+              className="mt-2 px-4 py-2.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {libBusy ? "Creating…" : "Create Librarian"}
+            </button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
