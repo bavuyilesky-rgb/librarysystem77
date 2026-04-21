@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { LayoutDashboard, BookOpen, ArrowLeftRight, Users, Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { PreferencesMenu } from "@/components/PreferencesMenu";
 
 const items = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, code: "01" },
@@ -19,8 +20,11 @@ export const AppLayout = () => {
       <aside className="w-64 border-r border-edge flex flex-col justify-between shrink-0 bg-surface/50">
         <div>
           <div className="h-14 border-b border-edge px-5 flex items-center justify-between">
-            <div className="font-mono text-xs font-bold tracking-widest uppercase">Nexus.LMS</div>
-            <div className="size-1.5 bg-info rounded-none animate-pulse" />
+            <div className="font-mono text-xs font-bold tracking-widest uppercase text-accent-gradient">Nexus.LMS</div>
+            <div className="flex items-center gap-2">
+              <PreferencesMenu showWidgets />
+              <div className="size-1.5 bg-primary rounded-full animate-pulse" />
+            </div>
           </div>
           <nav className="p-3 flex flex-col gap-0.5">
             {items.map((it) => (

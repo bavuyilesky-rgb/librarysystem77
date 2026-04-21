@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { BookOpen, BookMarked, History, Receipt, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { PreferencesMenu } from "@/components/PreferencesMenu";
 
 const items = [
   { to: "/student", label: "Browse Books", icon: BookOpen, end: true },

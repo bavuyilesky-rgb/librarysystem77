@@ -10,6 +10,8 @@ const Auth = () => {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [busy, setBusy] = useState(false);
 
   if (loading) return null;
@@ -20,10 +22,14 @@ const Auth = () => {
     setBusy(true);
     try {
       if (mode === "signup") {
+        if (!name.trim()) throw new Error("Please enter your full name");
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/` },
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+            data: { name: name.trim(), phone: phone.trim() || null },
+          },
         });
         if (error) throw error;
         toast.success("Account created. You're signed in.");
@@ -41,19 +47,46 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-background flex items-center justify-center p-6">
+    <div className="min-h-dvh bg-background flex items-center justify-center p-6 bg-accent-gradient">
       <div className="w-full max-w-sm">
         <div className="mb-10 text-center">
-          <div className="font-mono text-xs font-bold tracking-widest uppercase mb-2">Nexus.LMS</div>
+          <div className="font-mono text-xs font-bold tracking-widest uppercase mb-2 text-accent-gradient">Nexus.LMS</div>
           <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
             Library Management Terminal
           </div>
         </div>
 
-        <form onSubmit={submit} className="bg-surface border border-edge p-6 flex flex-col gap-4">
+        <form onSubmit={submit} className="bg-surface border border-edge p-6 flex flex-col gap-4 ring-accent-glow">
           <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
             {mode === "signin" ? "Authenticate" : "Register Operator"}
           </div>
+
+          {mode === "signup" && (
+            <>
+              <label className="flex flex-col gap-1.5">
+                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">Full name</span>
+                <input
+                  type="text"
+                  required
+                  maxLength={100}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info transition-colors"
+                />
+              </label>
+              <label className="flex flex-col gap-1.5">
+                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">Phone number</span>
+                <input
+                  type="tel"
+                  maxLength={32}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Optional"
+                  className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info transition-colors"
+                />
+              </label>
+            </>
+          )}
 
           <label className="flex flex-col gap-1.5">
             <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">Email</span>
@@ -62,7 +95,7 @@ const Auth = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info"
+              className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info transition-colors"
             />
           </label>
 
@@ -74,14 +107,14 @@ const Auth = () => {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info"
+              className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info transition-colors"
             />
           </label>
 
           <button
             type="submit"
             disabled={busy}
-            className="mt-2 px-4 py-2.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 transition-colors disabled:opacity-50"
+            className="mt-2 px-4 py-2.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 transition-opacity disabled:opacity-50 hover-lift"
           >
             {busy ? "Processing…" : mode === "signin" ? "Sign In" : "Create Account"}
           </button>
@@ -89,15 +122,11 @@ const Auth = () => {
           <button
             type="button"
             onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-            className="text-[11px] font-mono text-muted-foreground hover:text-foreground uppercase tracking-widest"
+            className="text-[11px] font-mono text-muted-foreground hover:text-foreground uppercase tracking-widest transition-colors"
           >
             {mode === "signin" ? "Need an account? Register" : "Have an account? Sign in"}
           </button>
         </form>
-
-        <p className="mt-6 text-[10px] font-mono text-muted-foreground/60 uppercase tracking-widest text-center">
-          First registered user becomes librarian
-        </p>
       </div>
     </div>
   );
