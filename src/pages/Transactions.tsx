@@ -42,7 +42,8 @@ const Transactions = () => {
 
   useEffect(() => {
     load();
-    const ch = supabase.channel("txn").on("postgres_changes", { event: "*", schema: "public", table: "transactions" }, load).subscribe();
+    const ch = supabase.channel("txn").on("postgres_changes", 
+    { event: "*", schema: "public", table: "transactions" }, load).subscribe();
     return () => { supabase.removeChannel(ch); };
   }, []);
 
@@ -87,8 +88,9 @@ const Transactions = () => {
         crumb="Terminal"
         title="Transit Logs"
         actions={
-          <button onClick={() => setIssueOpen(true)} className="px-4 py-1.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 flex items-center gap-1.5">
-            <Plus className="size-3" /> Issue Loan
+          <button onClick={() => setIssueOpen(true)} 
+          className="px-4 py-1.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 flex items-center gap-1.5">
+          <Plus className="size-3" /> Issue Loan
           </button>
         }
       />

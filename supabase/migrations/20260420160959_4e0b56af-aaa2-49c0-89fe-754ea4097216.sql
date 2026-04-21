@@ -11,7 +11,7 @@ RETURNS trigger
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path TO 'public'
-AS $$
+AS RR
 DECLARE
   librarian_count INT;
   display_name TEXT;
@@ -31,7 +31,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+RR;
 
 -- RLS: Students can view their own member record
 DROP POLICY IF EXISTS "Students view own member" ON public.members;

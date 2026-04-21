@@ -11,9 +11,9 @@ CREATE TABLE public.user_roles (
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE FUNCTION public.has_role(_user_id UUID, _role app_role)
-RETURNS BOOLEAN LANGUAGE SQL STABLE SECURITY DEFINER SET search_path = public AS $$
+RETURNS BOOLEAN LANGUAGE SQL STABLE SECURITY DEFINER SET search_path = public AS RR
   SELECT EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = _user_id AND role = _role)
-$$;
+RR;
 
 CREATE POLICY "Users see own roles" ON public.user_roles FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Librarians manage roles" ON public.user_roles FOR ALL
@@ -35,7 +35,7 @@ CREATE POLICY "Users insert own profile" ON public.profiles FOR INSERT WITH CHEC
 
 -- Auto profile + first-user-becomes-librarian
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS RR
 DECLARE
   user_count INT;
 BEGIN
@@ -48,7 +48,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+RR;
 CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
@@ -128,7 +128,7 @@ VALUES (0.50, 0, 50.00, 14);
 
 -- Borrow: decrement available
 CREATE OR REPLACE FUNCTION public.handle_borrow()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS RR
 BEGIN
   IF NEW.status = 'borrowed' THEN
     UPDATE public.books SET available_copies = available_copies - 1
@@ -139,13 +139,13 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+RR;
 CREATE TRIGGER on_txn_insert AFTER INSERT ON public.transactions
   FOR EACH ROW EXECUTE FUNCTION public.handle_borrow();
 
 -- Return: increment available when status changes to returned
 CREATE OR REPLACE FUNCTION public.handle_return()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS RR
 BEGIN
   IF OLD.status IN ('borrowed','overdue') AND NEW.status = 'returned' THEN
     UPDATE public.books SET available_copies = available_copies + 1
@@ -153,7 +153,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+RR;
 CREATE TRIGGER on_txn_update AFTER UPDATE ON public.transactions
   FOR EACH ROW EXECUTE FUNCTION public.handle_return();
 
