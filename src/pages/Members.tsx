@@ -9,6 +9,31 @@ const Members = () => {
   const [members, setMembers] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<any>({ name: "", email: "", phone: "", member_code: "" });
+  const [libOpen, setLibOpen] = useState(false);
+  const [libForm, setLibForm] = useState({ name: "", email: "", phone: "", password: "" });
+  const [libBusy, setLibBusy] = useState(false);
+
+  const createLibrarian = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (libForm.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return;
+    }
+    setLibBusy(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-librarian", {
+        body: libForm,
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      toast.success(`Librarian ${libForm.email} created. Share the password securely.`);
+      setLibOpen(false);
+    } catch (err: any) {
+      toast.error(err.message ?? "Failed to create librarian");
+    } finally {
+      setLibBusy(false);
+    }
+  };
 
   const load = async () => {
     const { data } = await supabase.from("members").select("*").order("created_at", { ascending: false });
@@ -44,9 +69,14 @@ const Members = () => {
         crumb="Terminal"
         title="Node Patrons"
         actions={
-          <button onClick={() => { setEditing({ name: "", email: "", phone: "", member_code: "" }); setOpen(true); }} className="px-4 py-1.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 flex items-center gap-1.5">
-            <Plus className="size-3" /> New Patron
-          </button>
+          <>
+            <button onClick={() => { setLibForm({ name: "", email: "", phone: "", password: "" }); setLibOpen(true); }} className="px-4 py-1.5 border border-edge hover:bg-surface-raised hover:border-edge-lit text-xs font-mono font-medium uppercase tracking-wide flex items-center gap-1.5 transition-all hover-lift">
+              <ShieldPlus className="size-3" /> Add Librarian
+            </button>
+            <button onClick={() => { setEditing({ name: "", email: "", phone: "", member_code: "" }); setOpen(true); }} className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 flex items-center gap-1.5 transition-all hover-lift">
+              <Plus className="size-3" /> New Patron
+            </button>
+          </>
         }
       />
       <div className="flex-1 overflow-y-auto p-8">
