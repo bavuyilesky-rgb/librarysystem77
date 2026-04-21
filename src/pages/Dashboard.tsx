@@ -3,8 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/PageHeader";
 import { StatCard } from "@/components/StatCard";
 import { fmtMoney, fmtNum } from "@/lib/format";
-import { format, formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
+import { usePreferences } from "@/hooks/usePreferences";
 
 interface Stats {
   totalBooks: number;
@@ -14,6 +15,8 @@ interface Stats {
 }
 
 const Dashboard = () => {
+  const { prefs } = usePreferences();
+  const show = (k: string) => prefs.dashboard_widgets.includes(k as any);
   const [stats, setStats] = useState<Stats>({ totalBooks: 0, borrowed: 0, overdue: 0, fines: 0 });
   const [recent, setRecent] = useState<any[]>([]);
   const [lowStock, setLowStock] = useState<any[]>([]);
@@ -67,14 +70,18 @@ const Dashboard = () => {
         }
       />
       <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 bg-edge gap-px border border-edge">
-          <StatCard label="Total Volumes" value={fmtNum(stats.totalBooks)} sub="Across all titles" />
-          <StatCard label="Active Transit" value={fmtNum(stats.borrowed)} tone="info" sub="Currently borrowed" />
-          <StatCard label="Critical Overdue" value={fmtNum(stats.overdue)} tone="danger" sub={stats.overdue ? "Action required" : "All clear"} />
-          <StatCard label="Total Fines" value={fmtMoney(stats.fines)} sub="Lifetime accrued" />
-        </div>
+        {show("stats") && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 bg-edge gap-px border border-edge">
+            <StatCard label="Total Volumes" value={fmtNum(stats.totalBooks)} sub="Across all titles" />
+            <StatCard label="Active Transit" value={fmtNum(stats.borrowed)} tone="info" sub="Currently borrowed" />
+            <StatCard label="Critical Overdue" value={fmtNum(stats.overdue)} tone="danger" sub={stats.overdue ? "Action required" : "All clear"} />
+            <StatCard label="Total Fines" value={fmtMoney(stats.fines)} sub="Lifetime accrued" />
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {(show("recent") || show("overdue")) && (
+        <div className={`grid grid-cols-1 gap-8 ${show("recent") && show("overdue") ? "lg:grid-cols-3" : ""}`}>
+          {show("recent") && (
           <div className="lg:col-span-2 flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h2 className="font-mono text-xs text-muted-foreground uppercase tracking-widest">Live Transit Stream</h2>
@@ -104,10 +111,12 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+          )}
 
+          {show("overdue") && (
           <div className="flex flex-col gap-4">
             <h2 className="font-mono text-xs text-warning uppercase tracking-widest flex items-center gap-2">
-              <span className="size-1.5 bg-warning rounded-none" />
+              <span className="size-1.5 bg-warning rounded-full" />
               Depletion Warning
             </h2>
             <div className="border border-warning/30 bg-warning/10 p-4 flex flex-col gap-3">
@@ -130,7 +139,9 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+          )}
         </div>
+        )}
       </div>
     </>
   );

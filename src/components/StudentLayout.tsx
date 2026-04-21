@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { BookOpen, BookMarked, History, Receipt, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { PreferencesMenu } from "@/components/PreferencesMenu";
 
 const items = [
   { to: "/student", label: "Browse Books", icon: BookOpen, end: true },
@@ -44,12 +45,13 @@ export const StudentLayout = () => {
           <span className="hidden sm:block font-mono text-[10px] uppercase tracking-widest text-muted-foreground truncate max-w-[160px]">
             {user?.email}
           </span>
+          <PreferencesMenu />
           <button
             onClick={async () => {
               await signOut();
               navigate("/auth");
             }}
-            className="flex items-center gap-2 px-3 py-1.5 border border-edge hover:bg-surface-raised text-xs font-mono uppercase tracking-wide transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 border border-edge hover:bg-surface-raised hover:border-edge-lit text-xs font-mono uppercase tracking-wide transition-all"
           >
             <LogOut className="size-3" />
             <span className="hidden sm:inline">Sign Out</span>

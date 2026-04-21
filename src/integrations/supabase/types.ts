@@ -86,6 +86,7 @@ export type Database = {
           email: string | null
           id: string
           name: string | null
+          phone: string | null
           user_id: string
         }
         Insert: {
@@ -93,6 +94,7 @@ export type Database = {
           email?: string | null
           id?: string
           name?: string | null
+          phone?: string | null
           user_id: string
         }
         Update: {
@@ -100,6 +102,7 @@ export type Database = {
           email?: string | null
           id?: string
           name?: string | null
+          phone?: string | null
           user_id?: string
         }
         Relationships: []
@@ -184,6 +187,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_preferences: {
+        Row: {
+          accent: string
+          dashboard_widgets: Json
+          density: string
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accent?: string
+          dashboard_widgets?: Json
+          density?: string
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accent?: string
+          dashboard_widgets?: Json
+          density?: string
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {

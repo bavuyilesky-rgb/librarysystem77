@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
+import { PreferencesProvider } from "@/hooks/usePreferences";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AppLayout } from "@/components/AppLayout";
 import { StudentLayout } from "@/components/StudentLayout";
@@ -29,6 +30,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <PreferencesProvider>
           <Routes>
             <Route path="/auth" element={<Auth />} />
 
@@ -54,6 +56,7 @@ const App = () => (
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </PreferencesProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
