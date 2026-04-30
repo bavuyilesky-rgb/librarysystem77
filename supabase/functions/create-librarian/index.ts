@@ -1,4 +1,4 @@
-// Librarian-only endpoint to create another librarian account.
+// Librarian-only endpoint to create another user account (librarian or student/patron).
 // Uses the service role to admin-create the user with role metadata so the
 // existing handle_new_user trigger assigns the 'librarian' role.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
@@ -27,7 +27,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Verify caller and check librarian role
     const userClient = createClient(SUPABASE_URL, ANON, {
       global: { headers: { Authorization: `Bearer ${token}` } },
     });
@@ -56,6 +55,8 @@ Deno.serve(async (req) => {
     const name = String(body.name ?? "").trim();
     const phone = body.phone ? String(body.phone).trim() : null;
     const password = String(body.password ?? "");
+    const requestedRole = String(body.role ?? "librarian");
+    const role = requestedRole === "student" ? "student" : "librarian";
 
     if (!email || !name || password.length < 8) {
       return new Response(
@@ -68,7 +69,7 @@ Deno.serve(async (req) => {
       email,
       password,
       email_confirm: true,
-      user_metadata: { name, phone, role: "librarian" },
+      user_metadata: { name, phone, role },
     });
 
     if (createErr) {
@@ -78,8 +79,19 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Fetch member_code if a student was created (created by handle_new_user trigger)
+    let member_code: string | null = null;
+    if (role === "student" && created.user) {
+      const { data: m } = await admin
+        .from("members")
+        .select("member_code")
+        .eq("user_id", created.user.id)
+        .maybeSingle();
+      member_code = m?.member_code ?? null;
+    }
+
     return new Response(
-      JSON.stringify({ ok: true, user_id: created.user?.id, email }),
+      JSON.stringify({ ok: true, user_id: created.user?.id, email, role, member_code }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
