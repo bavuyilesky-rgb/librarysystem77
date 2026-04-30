@@ -206,7 +206,7 @@ const StudentBrowse = () => {
                   <button
                     onClick={() => borrow(b)}
                     disabled={!available || borrowing === b.id || (settings && activeCount >= settings.max_books_per_student)}
-                    className="w-full mt-auto px-3 py-2 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="w-full mt-auto px-3 py-2 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   >
                     {borrowing === b.id ? "Borrowing…" : "Borrow"}
                   </button>

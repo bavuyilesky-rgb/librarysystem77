@@ -52,7 +52,7 @@ const Auth = () => {
         <div className="mb-10 text-center">
           <div className="font-mono text-xs font-bold tracking-widest uppercase mb-2 text-accent-gradient">Nexus.LMS</div>
           <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
-            Library Management Terminal
+            Library Management System
           </div>
         </div>
 

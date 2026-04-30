@@ -85,11 +85,11 @@ const Transactions = () => {
   return (
     <>
       <PageHeader
-        crumb="Terminal"
+        crumb="System"
         title="Transit Logs"
         actions={
           <button onClick={() => setIssueOpen(true)} 
-          className="px-4 py-1.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 flex items-center gap-1.5">
+          className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 flex items-center gap-1.5">
           <Plus className="size-3" /> Issue Loan
           </button>
         }
@@ -166,7 +166,7 @@ const Transactions = () => {
             <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
               Due in {settings?.loan_period_days ?? 14} days
             </div>
-            <button type="submit" className="mt-2 px-4 py-2.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80">
+            <button type="submit" className="mt-2 px-4 py-2.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90">
               Confirm Loan
             </button>
           </form>
@@ -189,7 +189,7 @@ const Transactions = () => {
               <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
                 Due {returnTxn.due_date} • Today {format(new Date(), "yyyy-MM-dd")}
               </div>
-              <button onClick={doReturn} className="px-4 py-2.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80">
+              <button onClick={doReturn} className="px-4 py-2.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90">
                 Confirm Return
               </button>
             </div>

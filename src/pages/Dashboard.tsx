@@ -56,11 +56,11 @@ const Dashboard = () => {
   return (
     <>
       <PageHeader
-        crumb="Terminal"
+        crumb="System"
         title="Matrix Overview"
         actions={
           <>
-            <Link to="/books" className="px-4 py-1.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80">
+            <Link to="/books" className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90">
               Add Asset
             </Link>
             <Link to="/transactions" className="px-4 py-1.5 border border-edge text-foreground text-xs font-mono font-medium uppercase tracking-wide hover:bg-surface-raised">

@@ -49,11 +49,11 @@ const Settings = () => {
                 step="0.01"
                 value={s[k]}
                 onChange={(e) => setS({ ...s, [k]: e.target.value })}
-                className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-info"
+                className="bg-background border border-edge px-3 py-2 text-sm font-mono focus:outline-none focus:border-primary"
               />
             </label>
           ))}
-          <button type="submit" disabled={busy} className="mt-2 px-4 py-2.5 bg-info text-background text-xs font-mono font-bold uppercase tracking-wide hover:bg-info/80 disabled:opacity-50">
+          <button type="submit" disabled={busy} className="mt-2 px-4 py-2.5 bg-primary text-primary-foreground text-xs font-mono font-bold uppercase tracking-wide hover:opacity-90 disabled:opacity-50">
             {busy ? "Saving…" : "Save Configuration"}
           </button>
         </form>
